@@ -3,8 +3,8 @@
 #include <time.h>
 
 struct board{
-	int Map[20][20];
-	int visit[20][20]; 
+	int Map[21][21];
+	int visit[21][21];
 }gameBoard;
 
 struct mouse{
@@ -17,7 +17,7 @@ struct dog{
 	int power, energy , speed ,x ,y;
 };
 struct cat{
-	int power , energy , x , y , lock;
+	int power , energy , x , y , lock ;
 };
 struct fish{
 	int energy,x,y;
@@ -25,15 +25,15 @@ struct fish{
 
 
 void printgameboard(){
-	for(int i=0;i<20;i++){
-		for(int j=0;j<20;j++){
+	for(int i=0;i<21;i++){
+		for(int j=0;j<21;j++){
 			if((gameBoard.Map[i][j]/100)%10 == 1)
 				printf("----");
 			else
 				printf("====");
 		}
 		printf("\n");
-		for(int j=0;j<20;j++){
+		for(int j=0;j<21;j++){
 			if(gameBoard.Map[i][j]/1000 == 1)
 				printf("|");
 			else
@@ -66,7 +66,7 @@ void printgameboard(){
 				printf(" J ");
 			}
 			else if(gameBoard.Map[i][j]%100 == 9){
-				printf(" 1 ");
+				printf(" s ");
 			}
 			else if(gameBoard.Map[i][j]%100 == 10){
 				printf(" 2 ");
@@ -85,8 +85,8 @@ void printgameboard(){
 void setMouseLoc(struct mouse mouse[]){
 	int x,y;
 	for(int i=0;i<mouse[0].tedad;i++){
-		x = (rand() % 20);
-		y = (rand() % 20);
+		x = (rand() % 21);
+		y = (rand() % 21);
 		if(gameBoard.visit[x][y] == 0){
 			gameBoard.Map[x][y] = gameBoard.Map[x][y] + mouse[0].type;
 			mouse[i].point = mouse[0].point;
@@ -102,8 +102,8 @@ void setMouseLoc(struct mouse mouse[]){
 void setFishLoc(struct fish fishes[]){
 	int x,y;
 	for(int i=0;i<10;i++){
-		x = (rand() % 20);
-		y = (rand() % 20);
+		x = (rand() % 21);
+		y = (rand() % 21);
 		if(gameBoard.visit[x][y] == 0){
 			gameBoard.Map[x][y] += 4;
 			fishes[i].x = x;
@@ -119,8 +119,8 @@ void setFishLoc(struct fish fishes[]){
 void setDogLoc(struct dog dogs[]){
 	int x,y;
 	for(int i=0;i<4;i++){
-		x = (rand() % 20);
-		y = (rand() % 20);
+		x = (rand() % 21);
+		y = (rand() % 21);
 		if(gameBoard.visit[x][y] == 0){
 			gameBoard.Map[x][y] += (5+i);
 			dogs[i].x = x;
@@ -136,7 +136,7 @@ void setDogLoc(struct dog dogs[]){
 				dogs[i].speed = 2;
 			}
 			else if(i==2){
-				dogs[i].energy = 20;
+				dogs[i].energy = 21;
 				dogs[i].power = 2;
 				dogs[i].speed = 3;
 			}
@@ -151,12 +151,41 @@ void setDogLoc(struct dog dogs[]){
 			i--;
 	}
 }
+void turn( int index){
+    int p[4];
+     p[1]= ( (rand() % 6) + 1);
+     p[2]= ( (rand() % 6) + 1);
+     p[3]= ( (rand() % 6) + 1);
+     p[4]= ( (rand() % 6) + 1);
+    for (int i = 0; i < 4; ++i) {
+        for (int j = i+1; j < 4; ++j) {
+            if(p[i] == p[j] ){
+                p[i]= ( (rand() % 6) + 1);
+                p[j]= ( (rand() % 6) + 1);
+                j--;
+            }
+        }
+    }
+    int max =0;
+   index =0;
+    for (int i = 0; i < ; ++i) {
+        if(p[i] >= max){
+            max = p[i];
+            index = i;
+        }
+        p[i] = -10;
+    }
+
+}
+void getdirection(){
+    int steps,getch() , c =0;
+
+}
 
 int main(){
 	int i,j;
-	//struct board gameBoard;
-	for(int i=0;i<20;i++){
-		for(int j=0;j<20;j++){
+	for(int i=0;i<21;i++){
+		for(int j=0;j<21;j++){
 			gameBoard.Map[i][j]=1100;
 			gameBoard.visit[i][j] = 0;
 		}
@@ -168,14 +197,8 @@ int main(){
 		player[i].power=2;
 		player[i].lock=0;
 	}
-	gameBoard.Map[7][7]=1109;
-	gameBoard.Map[7][8]=1110;
-	gameBoard.Map[8][7]=1111;
-	gameBoard.Map[8][8]=1112;
-	gameBoard.visit[7][7]=1;
-	gameBoard.visit[7][8]=1;
-	gameBoard.visit[8][7]=1;
-	gameBoard.visit[8][8]=1;
+	gameBoard.Map[10][10]=1109;
+	gameBoard.visit[10][10]=1;
 	struct mouse mouse1[8];
 	mouse1[0].tedad=4;
 	mouse1[0].type= 1;
@@ -196,5 +219,9 @@ int main(){
 	setMouseLoc(mouse3);
 	setDogLoc(dogs);
     printgameboard();
-	
+    int index;
+    turn(index);
+    printf("player %d goes first", index);
+
+
 }
